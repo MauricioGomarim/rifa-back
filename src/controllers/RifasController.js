@@ -27,7 +27,8 @@ class RifasController {
       transaction_amount: Number(valorRifa),
       description: "",
       payment_method_id: "pix",
-      notification_url: "https://backend-rifa-mauriciogomarimrifa-35d24eb0.koyeb.app/orderRifa/webhook",
+      notification_url:
+        "https://backend-rifa-mauriciogomarimrifa-35d24eb0.koyeb.app/orderRifa/webhook",
       payer: {
         email: email,
         identification: {
@@ -36,7 +37,6 @@ class RifasController {
         },
       },
     };
-
 
     const requestOptions = {
       idempotencyKey: idempotencyKey,
@@ -60,10 +60,20 @@ class RifasController {
   async responsePix(request, response) {
     const { data } = request.body;
 
-    console.log('data-id', data.id);
-    console.log('id', data.id);
+    if (data) {
+      const client = new MercadoPagoConfig({
+        accessToken: process.env.ACCESS_TOKEN,
+      });
 
+      const payment = new Payment(client);
 
+      payment
+        .get({
+          id: data.id,
+        })
+        .then(console.log)
+        .catch(console.log);
+    }
   }
 }
 
