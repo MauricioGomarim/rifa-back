@@ -60,6 +60,8 @@ class RifasController {
   async responsePix(request, response) {
     const { data } = request.body;
 
+    console.log('id do data', data.id);
+
     if (data) {
       const client = new MercadoPagoConfig({
         accessToken: process.env.ACCESS_TOKEN,
