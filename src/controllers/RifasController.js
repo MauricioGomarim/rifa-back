@@ -82,7 +82,7 @@ class RifasController {
             return response.sendStatus(201);
           } else {
             console.log('falta pagar', res.status)
-            return response.sendStatus(200);
+            return response.sendStatus(201);
           }
         })
         .catch(console.log);
