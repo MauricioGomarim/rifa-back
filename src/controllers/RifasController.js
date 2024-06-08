@@ -60,7 +60,7 @@ class RifasController {
   async responsePix(request, response) {
     const { data } = request.body;
 
-    console.log('id do data', data.id);
+    console.log('id do data', data?.id);
 
     if (data) {
       const client = new MercadoPagoConfig({
@@ -73,7 +73,9 @@ class RifasController {
         .get({
           id: data.id,
         })
-        .then(console.log)
+        .then((res) => {
+          console.log('status', res.status);
+        })
         .catch(console.log);
     }
   }
