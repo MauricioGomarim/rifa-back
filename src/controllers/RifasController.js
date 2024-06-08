@@ -57,7 +57,10 @@ class RifasController {
   }
 
   async responsePix(request, response) {
-    console.log("comprou");
+    const { status } = request.body;
+
+    console.log(status);
+
   }
 }
 
