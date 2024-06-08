@@ -77,7 +77,7 @@ class RifasController {
           id: data.id,
         })
         .then((res) => {
-          if(res.status == approved) {
+          if(res.status == 'approved') {
             registerCota()
           } else {
             console.log('falta pagar', res.status)
