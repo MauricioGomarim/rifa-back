@@ -58,9 +58,11 @@ class RifasController {
   }
 
   async responsePix(request, response) {
-    const { status } = request.body;
+    const { data } = request.body;
 
-    console.log('status', request.body);
+    console.log('data-id', data.id);
+    console.log('id', data.id);
+
 
   }
 }
