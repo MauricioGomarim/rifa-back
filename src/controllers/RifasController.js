@@ -60,7 +60,10 @@ class RifasController {
   async responsePix(request, response) {
     const { data } = request.body;
 
-    console.log('id do data', data?.id);
+
+    async function registerCota(){
+     console.log('rifa castrada')
+    }
 
     if (data) {
       const client = new MercadoPagoConfig({
@@ -74,7 +77,11 @@ class RifasController {
           id: data.id,
         })
         .then((res) => {
-          console.log('status', res.status);
+          if(res.status == approved) {
+            registerCota()
+          } else {
+            console.log('falta pagar', res.status)
+          }
         })
         .catch(console.log);
     }
