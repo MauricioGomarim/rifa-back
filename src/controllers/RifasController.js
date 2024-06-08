@@ -27,6 +27,7 @@ class RifasController {
       transaction_amount: Number(valorRifa),
       description: "",
       payment_method_id: "pix",
+      notification_url: "https://backend-rifa-mauriciogomarimrifa-35d24eb0.koyeb.app/orderRifa/webhook",
       payer: {
         email: email,
         identification: {
@@ -59,7 +60,7 @@ class RifasController {
   async responsePix(request, response) {
     const { status } = request.body;
 
-    console.log(status);
+    console.log('status', request.body);
 
   }
 }
