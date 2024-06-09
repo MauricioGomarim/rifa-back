@@ -46,11 +46,12 @@ class RifasController {
       .create({ body, requestOptions })
       .then((res) => {
         qrCodeValue = res.point_of_interaction.transaction_data.qr_code;
+        idTransation = res.id;
       })
       .catch(console.log)
       .finally(() => {
         if (qrCodeValue) {
-          return response.status(201).json(qrCodeValue);
+          return response.status(201).json({qrCodeValue, idTransation});
         } else {
           return response
             .status(500)
