@@ -50,19 +50,65 @@ class RifasController {
       .catch(console.log)
       .finally(() => {
         if (qrCodeValue) {
-          response.status(201).json(qrCodeValue);
+          return response.status(201).json(qrCodeValue);
         } else {
-          response.status(500).json({ error: "Erro ao criar o pagamento" });
+          return response
+            .status(500)
+            .json({ error: "Erro ao criar o pagamento" });
         }
       });
   }
 
   async responsePix(request, response) {
-    const { data } = request.body;
+    const { data, status } = request.body;
 
+    const quantRifas = 5;
+    const maxNumber = 20;
 
-    async function registerCota(){
-     console.log('rifa castrada')
+    async function generateUniqueNumbers(existingNumbers, totalNumbers, maxNumber) {
+      const uniqueNumbers = new Set(existingNumbers.map(Number)); // Convertendo para números
+      const newNumbers = new Set();
+      
+      // Verifica se todos os números possíveis já foram adicionados
+      if (uniqueNumbers.size === maxNumber) {
+        return [];
+      }
+      
+      while (newNumbers.size < totalNumbers) {
+        const randomNum = Math.floor(Math.random() * maxNumber) + 1;
+        if (!uniqueNumbers.has(randomNum) && !newNumbers.has(randomNum)) {
+          newNumbers.add(randomNum);
+        }
+        
+        if (uniqueNumbers.size + newNumbers.size === maxNumber) {
+          console.log('Todos os números possíveis já foram adicionados.');
+          break;
+        }
+      }
+      
+      return Array.from(newNumbers);
+    }
+
+    async function registerCota() {
+      try {
+        const existingNumbers = await knex("cotas_rifas").pluck("numero");
+
+        const newNumbers = await generateUniqueNumbers(
+          existingNumbers,
+          quantRifas,
+          maxNumber
+        );
+
+        if(newNumbers.length === 0) {
+          console.log('Os números estão esgotados!')         
+        } else {
+          const insertData = newNumbers.map(num => ({ numero: num }));
+          await knex('cotas_rifas').insert(insertData); 
+          console.log('Numeros gerados e cadastrados!')   
+        }
+      } catch (error) {
+        console.error("Erro ao cadastrar números:", error);
+      }
     }
 
     if (data) {
