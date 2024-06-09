@@ -14,7 +14,7 @@ class RifasController {
       return uuidv4();
     }
 
-    let qrCodeValue;
+    let qrCodeValue, idTransation;
     const idempotencyKey = generateIdempotencyKey();
 
     const client = new MercadoPagoConfig({
