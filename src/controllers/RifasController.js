@@ -8,7 +8,9 @@ const { MercadoPagoConfig, Payment } = require("mercadopago");
 
 class RifasController {
   async create(request, response) {
-    const { valorRifa, email, cpf } = request.body;
+    const { valorRifa, email, cpf, celular, name } = request.body;
+
+    console.log('teste');
 
     function generateIdempotencyKey() {
       return uuidv4();
@@ -49,8 +51,10 @@ class RifasController {
         idTransation = res.id;
       })
       .catch(console.log)
-      .finally(() => {
+      .finally(async function() {
         if (qrCodeValue) {
+          console.log('entrou');
+          await knex('cotas_transacoes').insert({id_transation: idTransation,nome: name, telefone: celular}); 
           return response.status(201).json({qrCodeValue, idTransation});
         } else {
           return response
@@ -100,12 +104,10 @@ class RifasController {
           maxNumber
         );
 
-        if(newNumbers.length === 0) {
-          console.log('Os números estão esgotados!')         
+        if(newNumbers.length === 0) {    
         } else {
           const insertData = newNumbers.map(num => ({ numero: num }));
           await knex('cotas_rifas').insert(insertData); 
-          console.log('Numeros gerados e cadastrados!')   
         }
       } catch (error) {
         console.error("Erro ao cadastrar números:", error);
@@ -125,10 +127,11 @@ class RifasController {
         })
         .then((res) => {
           if(res.status == 'approved') {
+            console.log(res)
             registerCota()
             return response.sendStatus(201);
           } else {
-            console.log('falta pagar', res.status)
+            console.log(res)
             return response.sendStatus(201);
           }
         })
