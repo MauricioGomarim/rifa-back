@@ -27,15 +27,17 @@ class RifasController {
       transaction_amount: Number(valorRifa),
       description: "",
       payment_method_id: "pix",
-      notification_url:
-        "https://backend-rifa-mauriciogomarimrifa-35d24eb0.koyeb.app/orderRifa/webhook",
+      notification_url: "https://backend-rifa-mauriciogomarimrifa-35d24eb0.koyeb.app/orderRifa/webhook",
       payer: {
         email: String(email),
         identification: {
           type: "cpf",
           number: cpf,
         },
-        phone: { area_code: "11", number: "987654321" },
+        phone: {
+          area_code: "11",
+          number: "987654321" 
+        },
       },
     };
 
