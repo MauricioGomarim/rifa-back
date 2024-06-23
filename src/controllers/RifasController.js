@@ -30,7 +30,7 @@ class RifasController {
       notification_url: "https://backend-rifa-mauriciogomarimrifa-35d24eb0.koyeb.app/orderRifa/webhook",
 
       payer: {
-        first_name: Strong(name),
+        first_name: String(name),
         email: String(email),
         identification: {
           type: "cpf",
