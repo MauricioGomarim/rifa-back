@@ -128,7 +128,7 @@ class RifasController {
             registerCota()
             return response.sendStatus(201);
           } else {
-            onsole.log('reprovado',res.payer.phone.number)
+            console.log('reprovado',res.payer.phone.number)
             return response.sendStatus(201);
           }
         })
