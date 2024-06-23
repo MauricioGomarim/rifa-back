@@ -10,8 +10,6 @@ class RifasController {
   async create(request, response) {
     const { valorRifa, email, cpf, celular, name } = request.body;
 
-    console.log('teste');
-
     function generateIdempotencyKey() {
       return uuidv4();
     }
@@ -37,6 +35,7 @@ class RifasController {
           type: "cpf",
           number: cpf,
         },
+        phone: { number: celular},
       },
     };
 
@@ -51,10 +50,8 @@ class RifasController {
         idTransation = res.id;
       })
       .catch(console.log)
-      .finally(async function() {
+      .finally(() => {
         if (qrCodeValue) {
-          console.log('entrou');
-          await knex('cotas_transacoes').insert({id_transation: idTransation,nome: name, telefone: celular}); 
           return response.status(201).json({qrCodeValue, idTransation});
         } else {
           return response
@@ -127,11 +124,11 @@ class RifasController {
         })
         .then((res) => {
           if(res.status == 'approved') {
-            console.log(res)
+            console.log('aprovado',res.payer.phone.number)
             registerCota()
             return response.sendStatus(201);
           } else {
-            console.log(res)
+            onsole.log('reprovado',res.payer.phone.number)
             return response.sendStatus(201);
           }
         })
