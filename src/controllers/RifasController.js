@@ -35,7 +35,7 @@ class RifasController {
           type: "cpf",
           number: cpf,
         },
-        phone: { area_code: 17 , number: Number(celular)},
+        phone: { area_code: "11", number: "987654321" },
       },
     };
 
@@ -52,7 +52,7 @@ class RifasController {
       .catch(console.log)
       .finally(() => {
         if (qrCodeValue) {
-          return response.status(201).json({qrCodeValue, idTransation});
+          return response.status(201).json({ qrCodeValue, idTransation });
         } else {
           return response
             .status(500)
@@ -67,27 +67,31 @@ class RifasController {
     const quantRifas = 5;
     const maxNumber = 20;
 
-    async function generateUniqueNumbers(existingNumbers, totalNumbers, maxNumber) {
+    async function generateUniqueNumbers(
+      existingNumbers,
+      totalNumbers,
+      maxNumber
+    ) {
       const uniqueNumbers = new Set(existingNumbers.map(Number)); // Convertendo para números
       const newNumbers = new Set();
-      
+
       // Verifica se todos os números possíveis já foram adicionados
       if (uniqueNumbers.size === maxNumber) {
         return [];
       }
-      
+
       while (newNumbers.size < totalNumbers) {
         const randomNum = Math.floor(Math.random() * maxNumber) + 1;
         if (!uniqueNumbers.has(randomNum) && !newNumbers.has(randomNum)) {
           newNumbers.add(randomNum);
         }
-        
+
         if (uniqueNumbers.size + newNumbers.size === maxNumber) {
-          console.log('Todos os números possíveis já foram adicionados.');
+          console.log("Todos os números possíveis já foram adicionados.");
           break;
         }
       }
-      
+
       return Array.from(newNumbers);
     }
 
@@ -101,10 +105,10 @@ class RifasController {
           maxNumber
         );
 
-        if(newNumbers.length === 0) {    
+        if (newNumbers.length === 0) {
         } else {
-          const insertData = newNumbers.map(num => ({ numero: num }));
-          await knex('cotas_rifas').insert(insertData); 
+          const insertData = newNumbers.map((num) => ({ numero: num }));
+          await knex("cotas_rifas").insert(insertData);
         }
       } catch (error) {
         console.error("Erro ao cadastrar números:", error);
@@ -123,16 +127,16 @@ class RifasController {
           id: data.id,
         })
         .then((res) => {
-          if(res.status == 'approved') {
-            console.log('aprovado',res.payer.phone.number)
-            console.log('id',res.id)
-            console.log('json',res)
-            registerCota()
+          if (res.status == "approved") {
+            console.log("aprovado", res.payer.phone.number);
+            console.log("id", res.id);
+            console.log("json", res);
+            registerCota();
             return response.sendStatus(201);
           } else {
-            console.log('reprovado',res.payer.phone.number)
-            console.log('id',res.id)
-            console.log('json',res)
+            console.log("reprovado", res.payer.phone.number);
+            console.log("id", res.id);
+            console.log("json", res);
             return response.sendStatus(201);
           }
         })
