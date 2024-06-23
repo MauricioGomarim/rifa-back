@@ -29,6 +29,7 @@ class RifasController {
       payment_method_id: "pix",
       notification_url: "https://backend-rifa-mauriciogomarimrifa-35d24eb0.koyeb.app/orderRifa/webhook",
       payer: {
+        type: 'customer',
         email: String(email),
         identification: {
           type: "cpf",
