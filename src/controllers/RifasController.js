@@ -30,8 +30,8 @@ class RifasController {
       notification_url: "https://backend-rifa-mauriciogomarimrifa-35d24eb0.koyeb.app/orderRifa/webhook",
 
       payer: {
-        first_name: name,
-        email: 'test@gmail.com',
+        first_name: Strong(name),
+        email: String(email),
         identification: {
           type: "cpf",
           number: cpf,
@@ -99,7 +99,7 @@ class RifasController {
       return Array.from(newNumbers);
     }
 
-    async function registerCota() {
+    async function registerCota(cpf) {
       try {
         const existingNumbers = await knex("cotas_rifas").pluck("numero");
 
@@ -112,7 +112,7 @@ class RifasController {
         if (newNumbers.length === 0) {
         } else {
           const insertData = newNumbers.map((num) => ({ numero: num }));
-          await knex("cotas_rifas").insert(insertData);
+          await knex("cotas_rifas").insert(insertData, cpf);
         }
       } catch (error) {
         console.error("Erro ao cadastrar números:", error);
@@ -134,8 +134,9 @@ class RifasController {
           if (res.status == "approved") {
             console.log("aprovado", res.payer.phone.number);
             console.log("id", res.id);
-            console.log("json", res);
-            registerCota();
+            console.log("json", res.payer.identification.number);
+            let cpf = res.payer.identification.number;
+            registerCota(cpf);
             return response.sendStatus(201);
           } else {
             console.log("reprovado", res.payer.phone.number);
