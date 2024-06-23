@@ -35,7 +35,7 @@ class RifasController {
           type: "cpf",
           number: cpf,
         },
-        phone: { number: celular},
+        phone: { number: celular.toString()},
       },
     };
 
