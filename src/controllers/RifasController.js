@@ -30,12 +30,12 @@ class RifasController {
       notification_url:
         "https://backend-rifa-mauriciogomarimrifa-35d24eb0.koyeb.app/orderRifa/webhook",
       payer: {
-        email: email,
+        email: String(email),
         identification: {
           type: "cpf",
           number: cpf,
         },
-        phone: { area_code: '17' , number: celular},
+        phone: { area_code: 17 , number: Number(celular)},
       },
     };
 
