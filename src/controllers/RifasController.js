@@ -35,7 +35,7 @@ class RifasController {
           type: "cpf",
           number: cpf,
         },
-        phone: { number: celular.toString()},
+        phone: { area_code: '17' , number: celular},
       },
     };
 
