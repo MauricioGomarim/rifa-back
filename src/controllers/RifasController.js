@@ -125,10 +125,14 @@ class RifasController {
         .then((res) => {
           if(res.status == 'approved') {
             console.log('aprovado',res.payer.phone.number)
+            console.log('id',res.id)
+            console.log('json',res)
             registerCota()
             return response.sendStatus(201);
           } else {
             console.log('reprovado',res.payer.phone.number)
+            console.log('id',res.id)
+            console.log('json',res)
             return response.sendStatus(201);
           }
         })
