@@ -111,8 +111,8 @@ class RifasController {
 
         if (newNumbers.length === 0) {
         } else {
-          const insertData = newNumbers.map((num) => ({ numero: num }));
-          await knex("cotas_rifas").insert({insertData, cpf});
+          const insertData = newNumbers.map((num) => ({ numero: num, cpf }));
+          await knex("cotas_rifas").insert({insertData});
         }
       } catch (error) {
         console.error("Erro ao cadastrar números:", error);
