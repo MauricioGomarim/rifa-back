@@ -41,13 +41,19 @@ class RifasController {
         },
         phone: {
           area_code: "17",
-          number: '992118342' // Usar o valor correto do campo 'celular'
+          number: celular // Usar o valor correto do campo 'celular'
         },
       },
   
       additional_info: {
-        quantRifas: quantRifas,
-        maxNumber: maxNumber,
+        items: [
+          {
+            title: "Rifas",
+            quantity: quantRifas,
+            unit_price: Number(valorRifa),
+            description: `Max number: ${maxNumber}`
+          }
+        ]
       }
     };
 
