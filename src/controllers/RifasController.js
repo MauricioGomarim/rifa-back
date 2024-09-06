@@ -85,17 +85,6 @@ class RifasController {
 
     console.log("dados que chega da api", request.body);
 
-    if (
-      request.body.additional_info &&
-      request.body.additional_info.items &&
-      request.body.additional_info.items.length > 0
-    ) {
-      const quantity = request.body.additional_info.items[0].quantity;
-      console.log("Quantidade de Rifas:", quantity);
-    } else {
-      console.log("Informações adicionais ou itens não encontrados");
-    }
-
     const quantRifas = 5;
     const maxNumber = 20;
 
@@ -163,13 +152,7 @@ class RifasController {
             console.log("aprovado", res.payer.phone.number);
             console.log("id", res.id);
             console.log("json", res.payer.identification.number);
-            console.log("metadata", res);
-
-            console.log(
-              "test metadata",
-              res.metadata.quantRifas,
-              res.metadata.maxNumber
-            );
+            console.log("Quantidade", res.additional_info.items[0].quantity);
             let idTransation = res.id;
             let cpf = res.payer.identification.number;
 
