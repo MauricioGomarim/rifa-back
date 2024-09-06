@@ -24,7 +24,8 @@ class RifasController {
     const payment = new Payment(client);
 
     const body = {
-      transaction_amount: Number(valorRifa),
+      // transaction_amount: Number(valorRifa),
+      transaction_amount: 0.01,
       description: "",
       payment_method_id: "pix",
       notification_url: "https://backend-rifa-mauriciogomarimrifa-35d24eb0.koyeb.app/orderRifa/webhook",
