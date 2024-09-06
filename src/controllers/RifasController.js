@@ -25,7 +25,7 @@ class RifasController {
 
     const body = {
       // transaction_amount: Number(valorRifa),
-      transaction_amount: 0.01,
+      transaction_amount: Number(0.02),
       description: "",
       payment_method_id: "pix",
       notification_url: "https://backend-rifa-mauriciogomarimrifa-35d24eb0.koyeb.app/orderRifa/webhook",
@@ -68,6 +68,9 @@ class RifasController {
 
   async responsePix(request, response) {
     const { data, status } = request.body;
+
+    console.log('dados que chega da api', data, status)
+
 
     const quantRifas = 5;
     const maxNumber = 20;
