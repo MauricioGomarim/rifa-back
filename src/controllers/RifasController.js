@@ -10,6 +10,9 @@ class RifasController {
   async create(request, response) {
     const { valorRifa, email, cpf, celular, name } = request.body;
 
+    const quantRifas = 5;
+    const maxNumber = 20;
+    
     function generateIdempotencyKey() {
       return uuidv4();
     }
@@ -24,12 +27,11 @@ class RifasController {
     const payment = new Payment(client);
 
     const body = {
-      // transaction_amount: Number(valorRifa),
-      transaction_amount: Number(0.02),
+      transaction_amount: Number(0.02), // Apenas para teste, ajuste conforme necessário
       description: "",
       payment_method_id: "pix",
       notification_url: "https://backend-rifa-mauriciogomarimrifa-35d24eb0.koyeb.app/orderRifa/webhook",
-
+  
       payer: {
         first_name: String(name),
         email: String(email),
@@ -42,6 +44,12 @@ class RifasController {
           number: "987654321"
         },
       },
+  
+      // Adicionando informações personalizadas no campo metadata
+      metadata: {
+        quantRifas: quantRifas,
+        maxNumber: maxNumber,
+      }
     };
 
     const requestOptions = {
@@ -103,7 +111,7 @@ class RifasController {
       return Array.from(newNumbers);
     }
 
-    async function registerCota(cpf) {
+    async function registerCota(cpf, idTransation) {
       try {
         const existingNumbers = await knex("cotas_rifas").pluck("numero");
 
@@ -139,8 +147,13 @@ class RifasController {
             console.log("aprovado", res.payer.phone.number);
             console.log("id", res.id);
             console.log("json", res.payer.identification.number);
+            console.log("metadata", res);
+
+            console.log('test metadata', res.metadata.quantRifas, res.metadata.maxNumber)
+            let idTransation = res.id;
             let cpf = res.payer.identification.number;
-            registerCota(cpf);
+
+            registerCota(cpf, idTransation);
             return response.sendStatus(201);
           } else {
             console.log("reprovado", res.payer.phone.number);
