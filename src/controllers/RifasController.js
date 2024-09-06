@@ -41,12 +41,11 @@ class RifasController {
         },
         phone: {
           area_code: "17",
-          number: "987654321"
+          number: '992118342' // Usar o valor correto do campo 'celular'
         },
       },
   
-      // Adicionando informações personalizadas no campo metadata
-      metadata: {
+      additional_info: {
         quantRifas: quantRifas,
         maxNumber: maxNumber,
       }
@@ -77,7 +76,7 @@ class RifasController {
   async responsePix(request, response) {
     const { data, status } = request.body;
 
-    console.log('dados que chega da api', data, status)
+    console.log('dados que chega da api', request.body)
 
 
     const quantRifas = 5;
