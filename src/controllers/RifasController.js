@@ -8,9 +8,8 @@ const { MercadoPagoConfig, Payment } = require("mercadopago");
 
 class RifasController {
   async create(request, response) {
-    const { valorRifa, email, cpf, celular, name } = request.body;
+    const { valorRifa, email, cpf, celular, name, quantRifas } = request.body;
 
-    const quantRifas = 5;
     const maxNumber = 20;
 
     function generateIdempotencyKey() {
@@ -27,7 +26,7 @@ class RifasController {
     const payment = new Payment(client);
 
     const body = {
-      transaction_amount: Number(0.02), // Apenas para teste, ajuste conforme necessário
+      transaction_amount: Number(0.01), // Apenas para teste, ajuste conforme necessário
       description: "",
       payment_method_id: "pix",
       notification_url:
@@ -82,11 +81,6 @@ class RifasController {
 
   async responsePix(request, response) {
     const { data, status } = request.body;
-
-    console.log("dados que chega da api", request.body);
-
-    const quantRifas = 5;
-    const maxNumber = 20;
 
     async function generateUniqueNumbers(
       existingNumbers,
