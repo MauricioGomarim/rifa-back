@@ -84,7 +84,10 @@ class RifasController {
 
     console.log('dados que chega da api', request.body)
 
+    const quantity = request.body.additional_info.items[0].quantity;
+    console.log('Quantidade de Rifas:', quantity);
 
+    
     const quantRifas = 5;
     const maxNumber = 20;
 
