@@ -12,7 +12,7 @@ class RifasController {
 
     const quantRifas = 5;
     const maxNumber = 20;
-    
+
     function generateIdempotencyKey() {
       return uuidv4();
     }
@@ -30,8 +30,9 @@ class RifasController {
       transaction_amount: Number(0.02), // Apenas para teste, ajuste conforme necessário
       description: "",
       payment_method_id: "pix",
-      notification_url: "https://backend-rifa-mauriciogomarimrifa-35d24eb0.koyeb.app/orderRifa/webhook",
-  
+      notification_url:
+        "https://backend-rifa-mauriciogomarimrifa-35d24eb0.koyeb.app/orderRifa/webhook",
+
       payer: {
         first_name: String(name),
         email: String(email),
@@ -41,20 +42,20 @@ class RifasController {
         },
         phone: {
           area_code: "17",
-          number: celular // Usar o valor correto do campo 'celular'
+          number: celular, // Usar o valor correto do campo 'celular'
         },
       },
-  
+
       additional_info: {
         items: [
           {
             title: "Rifas",
             quantity: quantRifas,
             unit_price: Number(valorRifa),
-            description: `Max number: ${maxNumber}`
-          }
-        ]
-      }
+            description: `Max number: ${maxNumber}`,
+          },
+        ],
+      },
     };
 
     const requestOptions = {
@@ -82,12 +83,19 @@ class RifasController {
   async responsePix(request, response) {
     const { data, status } = request.body;
 
-    console.log('dados que chega da api', request.body)
+    console.log("dados que chega da api", request.body);
 
-    const quantity = request.body.additional_info.items[0].quantity;
-    console.log('Quantidade de Rifas:', quantity);
+    if (
+      request.body.additional_info &&
+      request.body.additional_info.items &&
+      request.body.additional_info.items.length > 0
+    ) {
+      const quantity = request.body.additional_info.items[0].quantity;
+      console.log("Quantidade de Rifas:", quantity);
+    } else {
+      console.log("Informações adicionais ou itens não encontrados");
+    }
 
-    
     const quantRifas = 5;
     const maxNumber = 20;
 
@@ -132,7 +140,7 @@ class RifasController {
         if (newNumbers.length === 0) {
         } else {
           const insertData = newNumbers.map((num) => ({ numero: num, cpf }));
-          await knex("cotas_rifas").insert(insertData)
+          await knex("cotas_rifas").insert(insertData);
         }
       } catch (error) {
         console.error("Erro ao cadastrar números:", error);
@@ -157,7 +165,11 @@ class RifasController {
             console.log("json", res.payer.identification.number);
             console.log("metadata", res);
 
-            console.log('test metadata', res.metadata.quantRifas, res.metadata.maxNumber)
+            console.log(
+              "test metadata",
+              res.metadata.quantRifas,
+              res.metadata.maxNumber
+            );
             let idTransation = res.id;
             let cpf = res.payer.identification.number;
 
