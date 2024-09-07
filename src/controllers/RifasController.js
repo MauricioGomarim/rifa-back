@@ -111,7 +111,10 @@ class RifasController {
       return Array.from(newNumbers);
     }
 
-    async function registerCota(cpf, idTransation, quantity, maxNumber) {
+    async function registerCota(cpf, idTransation, quantity) {
+
+      maxNumber = 20;
+      
       try {
         const existingNumbers = await knex("cotas_rifas").pluck("numero");
 
@@ -148,14 +151,14 @@ class RifasController {
             console.log("id", res.id);
             console.log("json", res.payer.identification.number);
             console.log("Quantidade", res.additional_info.items[0].quantity);
-            console.log("Max number", res.additional_info.items[0].maxNumber);
+            console.log("Max number", res.additional_info);
 
             let quantity = res.additional_info.items[0].quantity;
-            let maxNumber = res.additional_info.items[0].maxNumber;
+            // let maxNumber = res.additional_info.items[0].maxNumber;
             let idTransation = res.id;
             let cpf = res.payer.identification.number;
 
-            registerCota(cpf, idTransation, quantity, maxNumber);
+            registerCota(cpf, idTransation, quantity);
             return response.sendStatus(201);
           } else {
             console.log("reprovado", res.payer.phone.number);
