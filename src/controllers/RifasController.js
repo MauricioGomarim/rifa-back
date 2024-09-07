@@ -58,6 +58,7 @@ class RifasController {
       },
     };
 
+    console.log('entrou aqui')
     const requestOptions = {
       idempotencyKey: idempotencyKey,
     };
@@ -114,7 +115,7 @@ class RifasController {
     async function registerCota(cpf, idTransation, quantity) {
 
       maxNumber = 20;
-      
+
       try {
         const existingNumbers = await knex("cotas_rifas").pluck("numero");
 
