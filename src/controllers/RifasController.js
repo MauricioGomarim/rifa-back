@@ -125,7 +125,7 @@ class RifasController {
 
         if (newNumbers.length === 0) {
         } else {
-          const insertData = newNumbers.map((num) => ({ numero: num, cpf }));
+          const insertData = newNumbers.map((num) => ({ id_transacao: idTransation, numero: num, cpf }));
           await knex("cotas_rifas").insert(insertData);
         }
       } catch (error) {
@@ -146,7 +146,7 @@ class RifasController {
         })
         .then((res) => {
           if (res.status == "approved") {
-            console.log("aprovado", res.payer.phone.number);
+            console.log("aprovado");
             console.log("id", res.id);
             console.log("json", res.payer.identification.number);
             console.log("Quantidade", res.additional_info.items[0].quantity);
@@ -161,9 +161,6 @@ class RifasController {
             registerCota(cpf, idTransation, quantity, maxNumber);
             return response.sendStatus(201);
           } else {
-            console.log("reprovado", res.payer.phone.number);
-            console.log("id", res.id);
-            console.log("json", res);
             return response.sendStatus(201);
           }
         })
